@@ -8,6 +8,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
+
+
 const AboutPage = () => {
   const [username, setUsername] = useState("Ted");
   return (
