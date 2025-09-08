@@ -9,7 +9,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
-      <aside className="w-64 bg-white mt-10 shadow-md p-4 flex flex-col">
+      <aside className="w-64 bg-white mt-12 shadow-md p-4 flex flex-col">
         <h2 className="text-xl font-bold mb-6">MyApp</h2>
         <nav className="flex flex-col space-y-4">
           <Link href="/docs/dashboard" className="text-gray-700 hover:text-blue-500">

@@ -8,8 +8,8 @@ type ProductProps = {
 }
 
 export const generateMetadata = async ({
-  params,
-}: ProductProps): Promise<Metadata> => {
+  params, 
+}: ProductProps): Promise<Metadata> => { 
   const productId = (await params).productId;
   return {
     title: `Product ${productId}`,

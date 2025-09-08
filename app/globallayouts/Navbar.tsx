@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import Link from "next/link";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -14,17 +15,16 @@ export default function Navbar() {
 
         {/* Desktop Links */}
         <div className="hidden md:flex gap-8 text-gray-700 font-medium">
-          <a href="#" className="hover:text-blue-600 transition">Home</a>
-          <a href="#" className="hover:text-blue-600 transition">About</a>
-          <a href="#" className="hover:text-blue-600 transition">Services</a>
-          <a href="#" className="hover:text-blue-600 transition">Contact</a>
+          <Link href="/" className="hover:text-blue-600 transition">Home</Link>
+          <Link href="/about" className="hover:text-blue-600 transition">About</Link>
+          <Link href="/products" className="hover:text-blue-600 transition">Products</Link>
+          <Link href="/about/me" className="hover:text-blue-600 transition">Contact</Link>
         </div>
 
         {/* Button */}
         <div className="hidden md:block">
-          <button className="bg-blue-600 text-white px-5 py-2 rounded-xl shadow hover:bg-blue-700 transition">
-            Get Started
-          </button>
+          <Link href="/auth/login" className="bg-blue-600 text-white px-5 py-2 rounded-xl shadow hover:bg-blue-700 hover:cursor-pointer transition">
+LogIn          </Link>
         </div>
 
         {/* Mobile menu toggle */}
@@ -43,9 +43,9 @@ export default function Navbar() {
           <a href="#" className="hover:text-blue-600 transition">About</a>
           <a href="#" className="hover:text-blue-600 transition">Services</a>
           <a href="#" className="hover:text-blue-600 transition">Contact</a>
-          <button className="bg-blue-600 text-white px-5 py-2 rounded-xl shadow hover:bg-blue-700 transition">
+          <Link href="/login" className="bg-blue-600 text-white px-5 py-2 rounded-xl shadow hover:bg-blue-700 hover:cursor-pointer transition">
             Get Started
-          </button>
+          </Link>
         </div>
       )}
     </nav>
