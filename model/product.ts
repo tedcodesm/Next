@@ -7,6 +7,7 @@ export interface Products extends mongoose.Document{
     description: string;
     category: string;
     rating: number;
+    image: string;
     createdAt: string;
 }
 
@@ -30,6 +31,10 @@ const productSchema = new Schema<Products>({
     rating:{
         type: Number,
         default: 0,
+    },
+    image:{
+        type: String,
+        required: true,
     }
     
 },{

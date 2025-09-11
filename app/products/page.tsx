@@ -21,6 +21,7 @@ export function ProductsPage() {
   const [description, setDescription] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [rating, setRating] = useState<number>(0);
+  const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -30,22 +31,39 @@ export function ProductsPage() {
     setError(null);
     setMessage(null);
 
-    if (!name || !price || !description || !category || !rating) {
+    if (!name || !price || !description || !category || !rating || !image) {
       setError("All fields are required");
       return;
     }
 
     try {
       setLoading(true);
+      const toBase64 = (file: File): Promise<string> =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = reject;
+        });
+
+      const base64Image = image ? await toBase64(image) : "";
+
       const res = await axios.post("/api/products", {
         name,
         price: Number(price),
         description,
         category,
         rating,
+        image: base64Image,
       });
 
       setMessage(res.data?.message || "Product created successfully");
+      setName("");
+      setPrice("");
+      setDescription("");
+      setCategory("");
+      setRating(0);
+      setImage(null);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setError(error.response?.data?.message || error.message);
@@ -145,10 +163,23 @@ export function ProductsPage() {
               />
             </div>
             <div className="grid gap-2">
+              <Label htmlFor="image">Product Image</Label>
+              <Input
+                id="image"
+                type="file"
+                className="hover:cursor-pointer"
+                accept="image/*"
+                onChange={(e) =>
+                  setImage(e.target.files ? e.target.files[0] : null)
+                }
+                required
+              />
+            </div>
+            <div className="grid gap-2">
               <Label htmlFor="ratings">Ratings</Label>
               {renderRatingPicker()}
             </div>
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button type="submit" className="w-full hover:cursor-pointer" disabled={loading}>
               {loading ? "Creating..." : "Create Product"}
             </Button>
           </form>

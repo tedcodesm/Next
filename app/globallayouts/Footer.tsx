@@ -8,7 +8,7 @@ export default function Footer() {
         <div>
           <h2 className="text-2xl font-bold text-white">MyApp</h2>
           <p className="mt-3 text-sm text-gray-400">
-            Building modern web & mobile experiences with love 💙.
+            Building modern web & mobile experiences with love
           </p>
         </div>
 

@@ -45,3 +45,17 @@ export const POST = async (request: NextRequest) => {
     );
   }
 };
+//  get all users
+export const GET = async (request: NextRequest) => {
+  try {
+    await connectDB();
+    const users = await User.find({}); 
+    return NextResponse.json(users, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    return NextResponse.json(
+      { message: "Internal Server Error" },
+      { status: 500 }
+    );
+  } 
+};
