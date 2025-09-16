@@ -27,6 +27,8 @@ export function LoginPage() {
         console.log("trying to login with", {email, password});
         try {
             const res = await axios.post("/api/user/login", { email, password });
+            localStorage.setItem("token", res.data.token);
+
         console.log("Login response:", res.data);
         setMessage(res.data?.message || "Login successful");
         setError(null);
@@ -60,7 +62,7 @@ export function LoginPage() {
             )}
           </CardDescription>
           <CardAction>
-            <Link href="/auth/register" passHref>
+            <Link href="/user" passHref>
               <Button variant="link">Sign Up</Button>
             </Link>{" "}
           </CardAction>

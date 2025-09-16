@@ -16,14 +16,14 @@ export default function Navbar() {
         {/* Desktop Links */}
         <div className="hidden md:flex gap-8 text-gray-700 font-medium">
           <Link href="/" className="hover:text-blue-600 transition">Home</Link>
-          <Link href="/about" className="hover:text-blue-600 transition">About</Link>
+          <Link href="/user" className="hover:text-blue-600 transition">Signup</Link>
           <Link href="/products" className="hover:text-blue-600 transition">Products</Link>
           <Link href="/about/me" className="hover:text-blue-600 transition">Contact</Link>
         </div>
 
         {/* Button */}
         <div className="hidden md:block">
-          <Link href="/auth/login" className="bg-blue-600 text-white px-5 py-2 rounded-xl shadow hover:bg-blue-700 hover:cursor-pointer transition">
+          <Link href="/user/login" className="bg-blue-600 text-white px-5 py-2 rounded-xl shadow hover:bg-blue-700 hover:cursor-pointer transition">
 LogIn          </Link>
         </div>
 
