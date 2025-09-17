@@ -16,33 +16,36 @@ import Link from "next/link";
 import { useState } from "react";
 
 export function LoginPage() {
-    const[email, setEmail] = useState<string>("");
-    const[password, setPassword] = useState<string>("");
-    const[message, setMessage] = useState<string | null>(null);
-    const[error, setError] = useState<string | null>(null);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
-        // Add login logic here
-        console.log("trying to login with", {email, password});
-        try {
-            const res = await axios.post("/api/user/login", { email, password });
-            localStorage.setItem("token", res.data.token);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    // Add login logic here
+    console.log("trying to login with", { email, password });
+    try {
+      const res = await axios.post("/api/user/login", { email, password });
+      localStorage.setItem("token", res.data.token);
 
-        console.log("Login response:", res.data);
-        setMessage(res.data?.message || "Login successful");
-        setError(null);
-        } catch (error) {
-            
-            if (axios.isAxiosError(error)) {
-                console.error("Login error response:", error.response?.data || error.message);
-            }   
-            setError("Login failed. Please check your credentials and try again.");
-            setMessage(null);
-        }
-
-
+      console.log("Login response:", res.data);
+      setMessage(res?.data?.message || "Login successful");
+      setError(null);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          "Login error response:",
+          error.response?.data || error.message
+        );
+        setError(
+          error.response?.data.message ||
+            "Login failed. Please check your credentials and try again."
+        );
+      }
+      setMessage(null);
     }
+  };
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-900">
       <Card className="w-full max-w-sm">
@@ -52,13 +55,13 @@ export function LoginPage() {
             Enter your email below to login to your account
             {error && (
               <p className="text-red-500 text-sm font-mono font-semibold mt-2">
-                {error}     
-                </p>
+                {error}
+              </p>
             )}
             {message && (
               <p className="text-green-500 text-sm font-mono font-semibold mt-2">
                 {message}
-                </p>
+              </p>
             )}
           </CardDescription>
           <CardAction>
@@ -75,8 +78,8 @@ export function LoginPage() {
                 <Input
                   id="email"
                   type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="m@example.com"
                   required
                 />
@@ -91,16 +94,19 @@ export function LoginPage() {
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" 
-                 value={password}
-                 onChange={(e) => setPassword(e.target.value)}
-                required />
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
               </div>
             </div>
           </form>
         </CardContent>
         <CardFooter className="flex-col gap-2">
-          <Button onClick={handleSubmit} type="submit" className="w-full">
+          <Button onClick={handleSubmit} type="submit" className="w-full hover:cursor-pointer">
             Login
           </Button>
           <Button variant="outline" className="w-full">

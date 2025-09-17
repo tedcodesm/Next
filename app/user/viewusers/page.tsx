@@ -1,5 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+
 import {
   Table,
   TableBody,
@@ -11,8 +13,12 @@ import {
 } from "@/components/ui/table";
 import { View } from "lucide-react";
 import axios from "axios";
+import { DeleteModal } from "@/app/globallayouts/DeleteModal";
+import { useRouter } from "next/navigation";
+import { UpdateModal } from "@/app/globallayouts/UpdateModal";
 
 type User = {
+  _id: string;
   username: string;
   email: string;
   password: string;
@@ -23,6 +29,7 @@ const ViewPage = () => {
   const [user, setUser] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const getUsers = async () => {
     setLoading(true);
@@ -43,8 +50,29 @@ const ViewPage = () => {
   useEffect(() => {
     getUsers();
   }, []);
+
+  const handleDelete = async (id: string) => {
+    try {
+      const response = await axios.delete(`/api/user?id=${id}`);
+      console.log("User deleted:", response.data);
+      getUsers();
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          "Axios error:",
+          error.response?.data?.message || error?.message
+        );
+        setError(error.response?.data?.message);
+      }
+      console.error("Error deleting user:", error);
+    }
+  };
+
+  const handleUpdate = (id: string) => {
+    router.push(`/user/updateuser/${id}`);
+  };
   return (
-    <div className="min-h-screen flex p-8 items-center  justify-center">
+    <div className="min-h-screen flex p-8  items-center  justify-center">
       <Table>
         {error && (
           <div className="text-red-500 text-center font-mono font-semibold">
@@ -60,13 +88,24 @@ const ViewPage = () => {
             <TableHead>Created At</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody className=" space-x-4">
           {user.map((user) => {
             return (
               <TableRow key={user.email}>
                 <TableCell className="font-medium">{user.username}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.createdAt}</TableCell>
+                <TableCell className="flex gap-2">
+                  {/* <Button
+                    variant="outline"
+                    onClick={() => handleUpdate(user._id)}
+                  >
+                    Update
+                  </Button> */}
+                  <UpdateModal id={user._id} onUpdated={getUsers} />
+                  {/* <Button variant="outline" onClick={() => handleDelete(user?._id)}>Delete</Button> */}
+                  <DeleteModal id={user._id} onDelete={handleDelete} />
+                </TableCell>
               </TableRow>
             );
           })}
